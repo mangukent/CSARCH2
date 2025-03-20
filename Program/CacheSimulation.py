@@ -1,8 +1,9 @@
 from PyQt5.QtWidgets import QApplication,QWidget,QHBoxLayout,QAbstractItemView,QTableWidgetItem,QPushButton,QLabel,QVBoxLayout,QComboBox,QTextEdit,QTableWidget,QSizePolicy,QSpinBox,QHeaderView,QGroupBox,QGridLayout
 import sys
-cache_blocks = 32
-cache_line = 16
-sets = 8
+cache_blocks = 32 #2^5
+cache_line = 16 #2^4
+sets = 8 #2^3
+
 
 class CacheSimulator(QWidget):
     def __init__(self):
@@ -164,6 +165,42 @@ def random_test(self):
 
 def midrepeat_test(self):  
     pass
+
+
+def cache_replace(self, address): #Replace if it looks wrong 
+    self.total_access += 1
+
+    
+    memory_blocks = self.memory_size_qinput.value()
+
+    
+    set_index = (address % memory_blocks) % sets
+    tag = address // memory_blocks
+
+    
+    for i in range(len(self.cache[set_index])):
+        block = self.cache[set_index][i]
+
+        if block['valid'] and block['tag'] == tag:
+            self.cache_hit += 1
+            block['counter'] = self.total_access  
+            return True
+
+    
+    self.cache_miss += 1
+
+   
+    mru_index = max(range(len(self.cache[set_index])), key=lambda i: self.cache[set_index][i]['counter'])
+
+  
+    self.cache[set_index][mru_index] = {
+        'tag': tag,
+        'valid': True,
+        'counter': self.total_access
+    }
+
+    return False
+
 
 
 if __name__ == '__main__':
