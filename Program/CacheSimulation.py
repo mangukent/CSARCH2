@@ -3,7 +3,9 @@ import sys
 cache_blocks = 32 #2^5
 cache_line = 16 #2^4
 sets = 8 #2^3
-
+#TAG  =
+#SET = 
+#WORD = 
 
 class CacheSimulator(QWidget):
     def __init__(self):
@@ -156,9 +158,14 @@ def intilialize_cache_table(self):
             item = QTableWidgetItem(str(i))
             self.cache_qtable.setItem(i, 0, item)
 
-def sequential_test(self):
-    
-    pass
+def sequential_test(self): #Replace if it looks wrong
+    #0 - 2n -1
+    memory_blocks = self.memory_size_qinput.value()
+
+    sequence = [i % (2 * memory_blocks) for i in range(4 * 2 * memory_blocks)]
+
+    return sequence
+    #pass
 
 def random_test(self):
     pass
