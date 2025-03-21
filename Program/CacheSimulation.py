@@ -1,3 +1,4 @@
+import random
 from PyQt5.QtWidgets import QApplication,QWidget,QHBoxLayout,QAbstractItemView,QTableWidgetItem,QPushButton,QLabel,QVBoxLayout,QComboBox,QTextEdit,QTableWidget,QSizePolicy,QSpinBox,QHeaderView,QGroupBox,QGridLayout
 import sys
 cache_blocks = 32 #2^5
@@ -160,7 +161,7 @@ def intilialize_cache_table(self):
 
 def sequential_test(self): #Replace if it looks wrong
     #0 - 2n -1
-    memory_blocks = self.memory_size_qinput.value()
+    memory_blocks = self.memory_size_qinput.value() #i think replace this with mapping func(not sure)
 
     sequence = [i % (2 * memory_blocks) for i in range(4 * 2 * memory_blocks)]
 
@@ -168,7 +169,14 @@ def sequential_test(self): #Replace if it looks wrong
     #pass
 
 def random_test(self):
-    pass
+
+    memory_blocks = self.memory_size_qinput.value() #i think replace this with mapping func(not sure)
+    
+    sequence = [random.randint(0, 4 * memory_blocks - 1) for _ in range(4 * memory_blocks)]
+
+    return sequence
+
+    #pass
 
 def midrepeat_test(self):  
     pass
